@@ -47,7 +47,6 @@ serve(async (req) => {
     if (!textResult.success) throw new Error("Text image failed");
 
     // Step 2: Combine images
-    console.log(`"assets/xmas/${randomImage}"`);
     const appendCmd = new Deno.Command("magick", {
       args: [
         `assets/xmas/${randomImage}`,
