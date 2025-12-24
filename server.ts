@@ -2,6 +2,8 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
 serve(async (req) => {
   const url = new URL(req.url);
+  const imageNames = ["ball.jpg", "tree.jpg", "nativity.jpg", "santa.jpg", "star.jpg"];
+  const randomImage = imageNames[Math.floor(Math.random() * imageNames.length)];
 
   if (req.method !== "POST" || url.pathname !== "/api/greetings") {
     return new Response("Not Found", { status: 404 });
@@ -45,9 +47,10 @@ serve(async (req) => {
     if (!textResult.success) throw new Error("Text image failed");
 
     // Step 2: Combine images
+    console.log(`"assets/xmas/${randomImage}"`);
     const appendCmd = new Deno.Command("magick", {
       args: [
-        "assets/xmas/tree.jpg",
+        `assets/xmas/${randomImage}`,
         textImage,
         "+append",
         finalImage,
