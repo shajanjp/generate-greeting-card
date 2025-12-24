@@ -37,7 +37,7 @@ serve(async (req) => {
         "-pointsize",
         "32",
         "-fill",
-        "#555",
+        "#444",
         "-gravity",
         "North",
         "-annotate",
