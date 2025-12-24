@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
 serve(async (req) => {
   const url = new URL(req.url);
-  const imageNames = ["ball.jpg", "tree.jpg", "nativity.jpg", "santa.jpg", "star.jpg"];
+  const imageNames = ["ball", "tree", "nativity", "santa", "star"];
   const randomImage = imageNames[Math.floor(Math.random() * imageNames.length)];
 
   if (req.method !== "POST" || url.pathname !== "/api/greetings") {
@@ -10,10 +10,14 @@ serve(async (req) => {
   }
 
   try {
-    const { name } = await req.json();
+    let { name, image } = await req.json();
+    name = name || "";
+    let featureimage;
 
-    if (!name || typeof name !== "string") {
-      return new Response("Invalid name", { status: 400 });
+    if (image && imageNames.includes(image)) {
+      featureimage = `${image}.jpg`;
+    } else {
+      featureimage = `${randomImage}.jpg`;
     }
 
     // Sanitize name
@@ -49,7 +53,7 @@ serve(async (req) => {
     // Step 2: Combine images
     const appendCmd = new Deno.Command("magick", {
       args: [
-        `assets/xmas/${randomImage}`,
+        `assets/xmas/${featureimage}`,
         textImage,
         "+append",
         finalImage,
@@ -74,11 +78,10 @@ serve(async (req) => {
         "Content-Disposition": `inline; filename="${finalImageFileName}"`,
       },
     });
-
   } catch (err) {
     return new Response(
       `Error generating greeting: ${err.message}`,
-      { status: 500 }
+      { status: 500 },
     );
   }
 });

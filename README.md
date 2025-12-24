@@ -12,7 +12,8 @@ curl --request POST \
   --url http://localhost:8000/api/greetings \
   --header 'content-type: application/json' \
   --data '{
-  "name": "Emi"
+  "name": "Emi",
+  "image": "santa"
 }
 '
 ```
