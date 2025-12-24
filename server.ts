@@ -84,4 +84,4 @@ serve(async (req) => {
       { status: 500 },
     );
   }
-});
+}, { port: 5544 });
